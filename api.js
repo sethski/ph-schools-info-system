@@ -5,13 +5,20 @@ const { URL } = require("url");
 
 const PORT = process.env.PORT || 3000;
 const DATA_FILE = path.join(__dirname, "philippine_schools.json");
+const OPENAPI_FILE = path.join(__dirname, "openapi.json");
 
 let schools = [];
+let openApiSpec = null;
 
 function loadData() {
   const raw = fs.readFileSync(DATA_FILE, "utf8");
   const parsed = JSON.parse(raw);
   schools = Array.isArray(parsed.data) ? parsed.data : [];
+}
+
+function loadOpenApiSpec() {
+  const raw = fs.readFileSync(OPENAPI_FILE, "utf8");
+  openApiSpec = JSON.parse(raw);
 }
 
 function sendJson(res, statusCode, payload) {
@@ -22,6 +29,55 @@ function sendJson(res, statusCode, payload) {
     "Cache-Control": "no-store",
   });
   res.end(body);
+}
+
+function sendHtml(res, statusCode, html) {
+  res.writeHead(statusCode, {
+    "Content-Type": "text/html; charset=utf-8",
+    "Access-Control-Allow-Origin": "*",
+    "Cache-Control": "no-store",
+  });
+  res.end(html);
+}
+
+function getDocsHtml() {
+  return `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Philippine Schools API Docs</title>
+  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5/swagger-ui.css" />
+  <style>
+    body {
+      margin: 0;
+      background: #f5f7fb;
+      color: #16213a;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .top {
+      padding: 14px 20px;
+      background: #0f2a56;
+      color: #ffffff;
+      font-size: 14px;
+      letter-spacing: 0.2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="top">Philippine Schools API - Swagger UI</div>
+  <div id="swagger-ui"></div>
+  <script src="https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js"></script>
+  <script>
+    window.ui = SwaggerUIBundle({
+      url: "/openapi.json",
+      dom_id: "#swagger-ui",
+      deepLinking: true,
+      presets: [SwaggerUIBundle.presets.apis],
+    });
+  </script>
+</body>
+</html>`;
 }
 
 function parseInteger(value, fallback) {
@@ -189,6 +245,8 @@ function requestHandler(req, res) {
         "GET /api/schools",
         "GET /api/schools/:id",
         "GET /api/regions",
+        "GET /openapi.json",
+        "GET /docs",
       ],
       total_schools: schools.length,
     });
@@ -219,6 +277,16 @@ function requestHandler(req, res) {
     return;
   }
 
+  if (pathname === "/openapi.json") {
+    sendJson(res, 200, openApiSpec);
+    return;
+  }
+
+  if (pathname === "/docs") {
+    sendHtml(res, 200, getDocsHtml());
+    return;
+  }
+
   sendJson(res, 404, {
     error: "Not found",
     message: "The requested endpoint does not exist.",
@@ -227,8 +295,9 @@ function requestHandler(req, res) {
 
 try {
   loadData();
+  loadOpenApiSpec();
 } catch (error) {
-  console.error("Failed to load dataset:", error.message);
+  console.error("Failed to initialize API:", error.message);
   process.exit(1);
 }
 
@@ -237,4 +306,5 @@ const server = http.createServer(requestHandler);
 server.listen(PORT, () => {
   console.log(`Philippine Schools API running on http://localhost:${PORT}`);
   console.log(`Loaded ${schools.length} schools from ${path.basename(DATA_FILE)}`);
+  console.log(`API docs available at http://localhost:${PORT}/docs`);
 });
