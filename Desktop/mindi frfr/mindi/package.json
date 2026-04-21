@@ -1,0 +1,22 @@
+{
+  "name": "mindi",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Mindi — Adaptive AI Companion. Phase 1: Foundation & Core Brain.",
+  "packageManager": "pnpm@8.15.0",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @mindi/web dev",
+    "build": "pnpm --filter @mindi/web build",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "validate": "bash scripts/validate-phase1.sh"
+  },
+  "workspaces": [
+    "apps/web",
+    "shared"
+  ]
+}

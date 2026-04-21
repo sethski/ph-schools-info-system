@@ -1,0 +1,126 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =============================================================================
+   MINDI Phase 1 — Design System
+   ============================================================================= */
+
+:root {
+  --color-bg-base:        #0a0a0f;
+  --color-bg-surface:     rgba(255,255,255,0.03);
+  --color-bg-elevated:    rgba(255,255,255,0.06);
+  --color-border:         rgba(255,255,255,0.08);
+  --color-border-active:  rgba(255,255,255,0.2);
+
+  --color-region-writing:      #6366f1;
+  --color-region-code:         #06b6d4;
+  --color-region-personal:     #f59e0b;
+  --color-region-academic:     #10b981;
+  --color-region-creative:     #ec4899;
+  --color-region-professional: #8b5cf6;
+
+  --font-sans:    var(--font-dm-sans), system-ui, sans-serif;
+  --font-display: var(--font-syne), var(--font-dm-sans), sans-serif;
+
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-slow: 300ms;
+  --touch-target-min: 44px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration:       0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration:      0.01ms !important;
+    scroll-behavior:          auto !important;
+  }
+  .mindi-orb { animation: none !important; }
+}
+
+/* Skip link — keyboard navigation */
+.skip-link {
+  position: absolute;
+  top: -100vh; left: 16px;
+  z-index: 9999;
+  padding: 8px 16px;
+  background: var(--color-region-writing);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 0 0 8px 8px;
+  text-decoration: none;
+  transition: top 0.1s;
+}
+.skip-link:focus { top: 0; }
+
+/* Base */
+html {
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-bg-base);
+  color: rgba(255,255,255,0.85);
+  overscroll-behavior: none;
+  touch-action: manipulation; /* Eliminate 300ms tap delay */
+}
+
+h1, h2, h3, h4, h5, h6, .font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+/* Focus rings — WCAG 2.4.7 */
+:focus-visible {
+  outline: 2px solid var(--color-region-writing);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+:focus:not(:focus-visible) { outline: none; }
+
+/* Scrollbar */
+::-webkit-scrollbar              { width: 4px; height: 4px; }
+::-webkit-scrollbar-track        { background: transparent; }
+::-webkit-scrollbar-thumb        { background: rgba(255,255,255,0.1); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover  { background: rgba(255,255,255,0.2); }
+
+/* ReactFlow overrides */
+.react-flow__renderer { background: transparent !important; }
+.react-flow__controls button {
+  background: rgba(255,255,255,0.05) !important;
+  border-color: rgba(255,255,255,0.1) !important;
+  color: rgba(255,255,255,0.6) !important;
+  min-width: 44px; min-height: 44px;
+}
+.react-flow__controls button:hover {
+  background: rgba(255,255,255,0.1) !important;
+  color: rgba(255,255,255,0.9) !important;
+}
+
+/* Ambient orbs */
+.mindi-orb {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform;
+  animation: orb-drift 12s ease-in-out infinite alternate;
+}
+@keyframes orb-drift {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(30px, -20px) scale(1.08); }
+}
+
+/* Glass utility */
+.bg-glass {
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-border);
+}

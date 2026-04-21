@@ -1,0 +1,63 @@
+# Environment
+.env
+.env.local
+.env.*.local
+*.env
+
+# Firebase
+.firebase/
+firebase-debug.log
+firestore-debug.log
+*-debug.log
+
+# Node
+node_modules/
+.pnp
+.pnp.js
+
+# Next.js
+.next/
+out/
+dist/
+build/
+*.tsbuildinfo
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+.venv/
+venv/
+env/
+.Python
+*.egg-info/
+dist/
+.pytest_cache/
+.mypy_cache/
+*.so
+*.onnx
+
+# ML models (large files — download at runtime)
+*.bin
+*.safetensors
+models/
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+logs/
+*.log
+
+# Test coverage
+coverage/
+
+# Vercel
+.vercel

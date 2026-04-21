@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mindi</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      width: 300px;
+      background: #0f0f13;
+      color: rgba(255,255,255,0.85);
+      font-family: -apple-system, 'DM Sans', system-ui, sans-serif;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 16px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .logo {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: #fff;
+    }
+
+    .auth-status {
+      margin-left: auto;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 20px;
+    }
+    .auth-status.signed-in { background: rgba(16,185,129,0.15); color: #10b981; }
+    .auth-status.signed-out { background: rgba(239,68,68,0.15); color: #ef4444; }
+
+    .content { padding: 14px 16px; }
+
+    .section { margin-bottom: 16px; }
+    .section-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: rgba(255,255,255,0.3);
+      margin-bottom: 8px;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      color: rgba(255,255,255,0.7);
+      font-size: 12px;
+      font-family: inherit;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 44px;
+    }
+    button:hover { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.9); }
+    button:disabled { opacity: 0.4; cursor: not-allowed; }
+    button.primary {
+      background: rgba(99,102,241,0.15);
+      border-color: rgba(99,102,241,0.3);
+      color: #a5b4fc;
+    }
+    button.primary:hover { background: rgba(99,102,241,0.25); }
+
+    .status-msg {
+      font-size: 11px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      margin-top: 8px;
+    }
+    .status-msg.success { background: rgba(16,185,129,0.1); color: #10b981; }
+    .status-msg.error { background: rgba(239,68,68,0.1); color: #ef4444; }
+    .status-msg.info { background: rgba(99,102,241,0.1); color: #818cf8; }
+
+    .not-auth {
+      padding: 20px 16px;
+      text-align: center;
+      color: rgba(255,255,255,0.4);
+      font-size: 12px;
+    }
+    .not-auth a {
+      color: #818cf8;
+      text-decoration: none;
+    }
+    .not-auth a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <span class="logo">Mindi</span>
+    <span class="auth-status signed-out" id="authStatus">Not signed in</span>
+  </div>
+
+  <div id="unauthView" class="not-auth" style="display:none">
+    <p>Sign in to Mindi to use the extension.</p>
+    <br/>
+    <a href="http://localhost:3000/login" target="_blank">Open Mindi →</a>
+  </div>
+
+  <div id="mainView" class="content" style="display:none">
+    <div class="section">
+      <div class="section-label">Capture</div>
+      <button class="primary" id="capturePageBtn">
+        <span>📄</span> Capture this page
+      </button>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Brain Link</div>
+      <button id="injectLinkBtn">
+        <span>✦</span> Inject Brain Link into focused input
+      </button>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Quick actions</div>
+      <button id="openDashboardBtn">
+        <span>🧠</span> Open Mindi dashboard
+      </button>
+    </div>
+
+    <div id="statusMsg" class="status-msg info" style="display:none"></div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

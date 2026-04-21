@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mindi — Offline</title>
+  <style>
+    body { background:#0a0a0f; color:rgba(255,255,255,0.75); font-family:system-ui,sans-serif; display:flex; align-items:center; justify-content:center; min-height:100vh; margin:0; text-align:center; }
+    .wrap { space-y:24px; max-width:320px; padding:24px; }
+    h1 { font-size:1.5rem; font-weight:700; color:#fff; margin-bottom:12px; }
+    p { font-size:0.9rem; color:rgba(255,255,255,0.45); line-height:1.6; }
+    button { margin-top:20px; padding:10px 20px; background:rgba(99,102,241,0.2); border:1px solid rgba(99,102,241,0.3); color:#a5b4fc; border-radius:10px; font-size:0.85rem; cursor:pointer; }
+    button:hover { background:rgba(99,102,241,0.3); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div style="font-size:3rem;margin-bottom:16px">🧠</div>
+    <h1>You're offline</h1>
+    <p>Mindi is still here. Your cached brain nodes are available. Changes will sync when you reconnect.</p>
+    <button onclick="window.history.back()">← Go back</button>
+  </div>
+</body>
+</html>

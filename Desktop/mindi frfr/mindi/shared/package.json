@@ -1,0 +1,18 @@
+{
+  "name": "@mindi/shared",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./index.ts",
+  "exports": {
+    "./types/user":     "./types/user.ts",
+    "./types/node":     "./types/node.ts",
+    "./types/style":    "./types/style.ts",
+    "./types/response": "./types/response.ts",
+    "./constants/regions": "./constants/regions.ts",
+    "./constants/risk":    "./constants/risk.ts",
+    "./constants/themes":  "./constants/themes.ts",
+    "./utils/chunk":       "./utils/chunk.ts",
+    "./utils/validation":  "./utils/validation.ts",
+    "./utils/gestures":    "./utils/gestures.ts"
+  }
+}

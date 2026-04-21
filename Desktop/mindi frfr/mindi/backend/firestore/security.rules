@@ -1,0 +1,42 @@
+rules_version = '2';
+// MINDI Phase 1 — Firestore Security Rules
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAuth() { return request.auth != null; }
+    function isOwner(uid) { return isAuth() && request.auth.uid == uid; }
+    function hasMfa() { return request.auth.token.mfa_verified == true; }
+
+    match /users/{userId} {
+      allow read, create, update: if isOwner(userId);
+      allow delete: if false;
+
+      match /nodes/{nodeId} {
+        allow read, create, update: if isOwner(userId);
+        allow delete: if false;  // Soft-delete only (isArchived)
+        match /versions/{v} {
+          allow read, create: if isOwner(userId);
+          allow update, delete: if false;  // Versions are immutable
+        }
+      }
+
+      // Audit log: append-only, never editable or deletable
+      match /auditLog/{logId} {
+        allow read, create: if isOwner(userId);
+        allow update, delete: if false;
+      }
+
+      // Ingest jobs: read by client, written by Cloud Functions
+      match /ingestJobs/{jobId} {
+        allow read, create: if isOwner(userId);
+        allow update: if false;
+        allow delete: if false;
+      }
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

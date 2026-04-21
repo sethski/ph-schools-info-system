@@ -1,0 +1,32 @@
+{
+  "functions": [
+    {
+      "source": "backend/functions",
+      "codebase": "mindi-ml",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "__pycache__",
+        "*.pyc",
+        ".venv",
+        "models/"
+      ],
+      "runtime": "python311"
+    }
+  ],
+  "hosting": {
+    "public": "apps/web/.next",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
